@@ -1,0 +1,26 @@
+<resources>
+<string name="app_name">SmartHomeApplication</string>
+<string name="device_types_prompt">Choose a device type:</string>
+
+<string-array name="device_types">
+    <!--        <item>Air conditioning</item>-->
+    <!--        <item>Bathtub</item>-->
+    <!--        <item>Bed</item>-->
+    <!--        <item>Blinds</item>-->
+    <!--        <item>DoorCamera</item>-->
+    <!--        <item>Charger</item>-->
+    <!--        <item>Curtain</item>-->
+    <!--        <item>DoorLock</item>-->
+    <!--        <item>Heater</item>-->
+    <item>Light</item>
+    <!--        <item>Microwave</item>-->
+    <!--        <item>Network</item>-->
+    <!--        <item>Pressure cooker</item>-->
+    <!--        <item>Refrigerator</item>-->
+    <item>PowerPlug</item>
+    <item>Sensor</item>
+    <!--        <item>SmokeSensor</item>-->
+    <!--        <item>Television</item>-->
+    <!--        <item>Virtual Assistant</item>-->
+</string-array>
+</resources>
