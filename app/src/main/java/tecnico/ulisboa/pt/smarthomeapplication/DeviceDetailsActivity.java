@@ -1,5 +1,6 @@
 package tecnico.ulisboa.pt.smarthomeapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +32,9 @@ public class DeviceDetailsActivity extends AppCompatActivity {
     private TextView txt_seekBar2;
 
     private int mDefaultColor;
+
     private Button btn_ColorSetting;
+    private Button btn_remove;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         txt_seekBar_Temperature = findViewById(R.id.txt_seekBar_Temperature);
         txt_seekBar2 = findViewById(R.id.txt_seekBar2);
         btn_ColorSetting = findViewById(R.id.btn_ColorSetting);
-
+        btn_remove = findViewById(R.id.btn_remove);
         ShowDeviceDetails();
         setClickListeners();
     }
@@ -185,8 +188,19 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                 openColorPicker();
             }
         });
+        btn_remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseHelper.deleteDevice(clickedDevice);
+                returnActivity();
+            }
+        });
     }
 
+    public void returnActivity  () {
+        Intent intent = new Intent(this, MainConsoleActivity.class);
+        startActivity(intent);
+    }
     public void openColorPicker() {
         AmbilWarnaDialog colorPicker = new AmbilWarnaDialog(DeviceDetailsActivity.this, mDefaultColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
             @Override

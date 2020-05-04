@@ -43,6 +43,7 @@ import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_
 import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_SELECT_STATUS_DEVICE;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_SELECT_TEMPERATURE_LIGHT;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_SELECT_TEMPERATURE_SENSOR;
+import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_DELETE_DEVICE;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -521,22 +522,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //DELETE DB
-//    public boolean deleteDevice(DeviceModel deviceModel) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        String queryString = SQL_DELETE_DEVICE + deviceModel.getDeviceId();
-//
-//        Cursor cursor = db.rawQuery(queryString, null);
-//
-//        if (cursor.moveToFirst()) {
-//            cursor.close();
-//            db.close();
-//            return true;
-//        }
-//        else {
-//            cursor.close();
-//            db.close();
-//            return false;
-//        }
-//    }
+    public boolean deleteDevice(DeviceModel deviceModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String queryString = SQL_DELETE_DEVICE + deviceModel.getDeviceId();
+
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if (cursor.moveToFirst()) {
+            cursor.close();
+            db.close();
+            return true;
+        }
+        else {
+            cursor.close();
+            db.close();
+            return false;
+        }
+    }
 }
 
