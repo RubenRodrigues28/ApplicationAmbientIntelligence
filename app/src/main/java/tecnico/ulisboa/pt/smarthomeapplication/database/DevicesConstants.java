@@ -10,5 +10,7 @@ public class DevicesConstants {
 
     protected static final int DEFAULT_SENSOR_HUMIDITY_PERCENT = 40;
     protected static final int DEFAULT_SENSOR_TEMPERATURE_CELSIUS = 22;
+    protected static final int DEFAULT_SENSOR_MAXTEMPERATURE_CELSIUS = 30;
+    protected static final int DEFAULT_SENSOR_MINTEMPERATURE_CELSIUS = 15;
     protected static final int DEFAULT_SENSOR_ENERGY_CONSUMED = 30;
 }

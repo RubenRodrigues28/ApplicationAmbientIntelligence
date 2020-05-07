@@ -9,6 +9,8 @@ import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.
 import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_POWERPLUG_ENERGY_CONSUMED;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_SENSOR_ENERGY_CONSUMED;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_SENSOR_HUMIDITY_PERCENT;
+import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_SENSOR_MAXTEMPERATURE_CELSIUS;
+import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_SENSOR_MINTEMPERATURE_CELSIUS;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_SENSOR_TEMPERATURE_CELSIUS;
 
 public class DeviceModel implements Serializable {
@@ -34,7 +36,7 @@ public class DeviceModel implements Serializable {
                 powerPlugModel = new PowerPlugModel(DEFAULT_POWERPLUG_ENERGY_CONSUMED);
                 break;
             case "Sensor":
-                sensorModel = new SensorModel(DEFAULT_SENSOR_HUMIDITY_PERCENT, DEFAULT_SENSOR_TEMPERATURE_CELSIUS, DEFAULT_SENSOR_ENERGY_CONSUMED);
+                sensorModel = new SensorModel(DEFAULT_SENSOR_HUMIDITY_PERCENT, DEFAULT_SENSOR_TEMPERATURE_CELSIUS, DEFAULT_SENSOR_ENERGY_CONSUMED, DEFAULT_SENSOR_MAXTEMPERATURE_CELSIUS, DEFAULT_SENSOR_MINTEMPERATURE_CELSIUS);
                 break;
             default:
                 // when none of the cases is true.

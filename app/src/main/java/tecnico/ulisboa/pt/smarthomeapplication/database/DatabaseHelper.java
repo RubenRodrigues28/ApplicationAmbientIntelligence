@@ -23,6 +23,8 @@ import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.COLU
 import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.COLUMN_SENSOR_ENERGYCONSUMED;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.COLUMN_SENSOR_HUMIDITY;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.COLUMN_SENSOR_TEMPERATURE;
+import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.COLUMN_SENSOR_MAXTEMPERATURE;
+import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.COLUMN_SENSOR_MINTEMPERATURE;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.DEVICES_TABLE;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.LIGHTS_TABLE;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.POWERPLUGS_TABLE;
@@ -47,6 +49,8 @@ import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_
 import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_SELECT_STATUS_DEVICE;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_SELECT_TEMPERATURE_LIGHT;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_SELECT_TEMPERATURE_SENSOR;
+import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_SELECT_MAXTEMPERATURE_SENSOR;
+import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_SELECT_MINTEMPERATURE_SENSOR;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -123,6 +127,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cv.put(COLUMN_DEVICE_ID, id);
                 cv.put(COLUMN_SENSOR_HUMIDITY, sensorModel.getHumidity());
                 cv.put(COLUMN_SENSOR_TEMPERATURE, sensorModel.getTemperature());
+                cv.put(COLUMN_SENSOR_MAXTEMPERATURE, sensorModel.getMaxTemperature());
+                cv.put(COLUMN_SENSOR_MINTEMPERATURE, sensorModel.getMinTemperature());
                 cv.put(COLUMN_SENSOR_ENERGYCONSUMED, sensorModel.getEnergyConsumed());
                 insert = db.insert(SENSORS_TABLE, null, cv);
                 break;
@@ -175,7 +181,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 break;
 
             case "Sensor":
-                SensorModel sensorModel = new SensorModel(deviceModel.getDeviceId(), getHumidity(deviceModel), getTemperature(deviceModel), getEnergyConsumed(deviceModel));
+                SensorModel sensorModel = new SensorModel(deviceModel.getDeviceId(), getHumidity(deviceModel), getTemperature(deviceModel), getEnergyConsumed(deviceModel),
+                        getMaxTemperature(deviceModel), getMinTemperature(deviceModel));
                 deviceModel.setSensorModel(sensorModel);
                 break;
             case "PowerPlug":
@@ -286,6 +293,60 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return result;
     }
+
+        public int getMaxTemperature(DeviceModel deviceModel){
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            String queryString = "";
+            switch (deviceModel.getDeviceType()) {
+                case "Sensor":
+                    queryString = SQL_SELECT_MAXTEMPERATURE_SENSOR + deviceModel.getDeviceId();
+                    break;
+                default:
+                    return -1;
+            }
+
+            int result = -1;
+            Cursor cursor = db.rawQuery(queryString, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    result = cursor.getInt(0);
+                } while (cursor.moveToNext());
+            } else {
+                //failure
+            }
+
+            cursor.close();
+            db.close();
+            return result;
+        }
+
+        public int getMinTemperature(DeviceModel deviceModel){
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            String queryString = "";
+            switch (deviceModel.getDeviceType()) {
+                case "Sensor":
+                    queryString = SQL_SELECT_MINTEMPERATURE_SENSOR + deviceModel.getDeviceId();
+                    break;
+                default:
+                    return -1;
+            }
+
+            int result = -1;
+            Cursor cursor = db.rawQuery(queryString, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    result = cursor.getInt(0);
+                } while (cursor.moveToNext());
+            } else {
+                //failure
+            }
+
+            cursor.close();
+            db.close();
+            return result;
+        }
 
     public int getBrightness(DeviceModel deviceModel) {
         SQLiteDatabase db = this.getReadableDatabase();

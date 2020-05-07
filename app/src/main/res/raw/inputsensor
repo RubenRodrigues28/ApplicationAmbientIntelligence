@@ -1,0 +1,6 @@
+{
+	deviceId:1,
+	deviceType:"Light",
+	deviceStatus:"Off"
+	temperature:123
+}
