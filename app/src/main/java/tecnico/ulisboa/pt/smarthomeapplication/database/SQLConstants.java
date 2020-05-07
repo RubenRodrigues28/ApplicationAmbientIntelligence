@@ -16,13 +16,9 @@ public class SQLConstants {
             + COLUMN_DEVICE_STATUS + " TEXT NOT NULL)";
 
     protected static final String SQL_SELECT_ALL_DEVICES = "SELECT * FROM " + DEVICES_TABLE;
-
     protected static final String SQL_SELECT_STATUS_DEVICE = "SELECT " + COLUMN_DEVICE_STATUS + " FROM " + DEVICES_TABLE + " WHERE " + COLUMN_DEVICE_ID + " = ";
-
     protected static final String SQL_DELETE_ENTRIES_DEVICES_TABLE = "DROP TABLE IF EXISTS " + DEVICES_TABLE;
-
     protected static final String SQL_DELETE_DEVICE = "DELETE FROM " + DEVICES_TABLE + " WHERE " + COLUMN_DEVICE_ID + " = ";
-
     protected static final String SQL_LAST_INSERTED_ROWID = "SELECT MAX(" + COLUMN_DEVICE_ID + ") AS id FROM " + DEVICES_TABLE;
 
     //LIGHTS TABLE
@@ -43,6 +39,7 @@ public class SQLConstants {
     protected static final String SQL_SELECT_COLORSETTING_LIGHT = "SELECT " + COLUMN_LIGHT_COLORSETTING + " FROM " + LIGHTS_TABLE + " WHERE " + COLUMN_DEVICE_ID + " = ";
     protected static final String SQL_SELECT_TEMPERATURE_LIGHT = "SELECT " + COLUMN_LIGHT_TEMPERATURE + " FROM " + LIGHTS_TABLE + " WHERE " + COLUMN_DEVICE_ID + " = ";
     protected static final String SQL_SELECT_ENERGY_CONSUMED_LIGHT = "SELECT " + COLUMN_LIGHT_ENERGYCONSUMED + " FROM " + LIGHTS_TABLE + " WHERE " + COLUMN_DEVICE_ID + " = ";
+    protected static final String SQL_DELETE_DEVICE_LIGHT = "DELETE FROM " + LIGHTS_TABLE + " WHERE " + COLUMN_DEVICE_ID + " = ";
 
     //SENSORS TABLE
     protected static final String SENSORS_TABLE = "SENSORS";
@@ -59,6 +56,7 @@ public class SQLConstants {
     protected static final String SQL_SELECT_HUMIDITY_SENSOR = "SELECT " + COLUMN_SENSOR_HUMIDITY + " FROM " + SENSORS_TABLE + " WHERE " + COLUMN_DEVICE_ID + " = ";
     protected static final String SQL_SELECT_TEMPERATURE_SENSOR = "SELECT " + COLUMN_SENSOR_TEMPERATURE + " FROM " + SENSORS_TABLE + " WHERE " + COLUMN_DEVICE_ID + " = ";
     protected static final String SQL_SELECT_ENERGY_CONSUMED_SENSOR = "SELECT " + COLUMN_SENSOR_ENERGYCONSUMED + " FROM " + SENSORS_TABLE + " WHERE " + COLUMN_DEVICE_ID + " = ";
+    protected static final String SQL_DELETE_DEVICE_SENSOR = "DELETE FROM " + SENSORS_TABLE + " WHERE " + COLUMN_DEVICE_ID + " = ";
 
     //POWERPLUG TABLE
     protected static final String POWERPLUGS_TABLE = "POWER_PLUGS";
@@ -69,5 +67,6 @@ public class SQLConstants {
             + COLUMN_POWERPLUG_ENERGYCONSUMED + " INTEGER NOT NULL)";
 
     protected static final String SQL_SELECT_ENERGY_CONSUMED_POWER_PLUG = "SELECT " + COLUMN_POWERPLUG_ENERGYCONSUMED + " FROM " + POWERPLUGS_TABLE + " WHERE " + COLUMN_DEVICE_ID + " = ";
+    protected static final String SQL_DELETE_DEVICE_POWERPLUG = "DELETE FROM " + POWERPLUGS_TABLE + " WHERE " + COLUMN_DEVICE_ID + " = ";
 }
 

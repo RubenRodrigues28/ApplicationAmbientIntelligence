@@ -31,6 +31,10 @@ import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_
 import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_CREATE_LIGHTS_TABLE;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_CREATE_POWER_PLUGS_TABLE;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_CREATE_SENSORS_TABLE;
+import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_DELETE_DEVICE;
+import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_DELETE_DEVICE_LIGHT;
+import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_DELETE_DEVICE_POWERPLUG;
+import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_DELETE_DEVICE_SENSOR;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_DELETE_ENTRIES_DEVICES_TABLE;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_LAST_INSERTED_ROWID;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_SELECT_ALL_DEVICES;
@@ -46,7 +50,7 @@ import static tecnico.ulisboa.pt.smarthomeapplication.database.SQLConstants.SQL_
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "devices.db";
+    public static final String DATABASE_NAME = "app.db";
     public static final int DATABASE_VERSION = 1;
 
     public DatabaseHelper(@Nullable Context context) {
@@ -521,22 +525,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //DELETE DB
-//    public boolean deleteDevice(DeviceModel deviceModel) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        String queryString = SQL_DELETE_DEVICE + deviceModel.getDeviceId();
-//
-//        Cursor cursor = db.rawQuery(queryString, null);
-//
-//        if (cursor.moveToFirst()) {
-//            cursor.close();
-//            db.close();
-//            return true;
-//        }
-//        else {
-//            cursor.close();
-//            db.close();
-//            return false;
-//        }
-//    }
+    public boolean deleteDevice(DeviceModel deviceModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        int delete = db.delete(DEVICES_TABLE, COLUMN_DEVICE_ID + "=" + deviceModel.getDeviceId(), null);
+        if (delete == 1) {
+            db.close();
+            return deleteDevice_TableSpecific(deviceModel);
+        } else {
+            db.close();
+            return false;
+        }
+    }
+
+    public boolean deleteDevice_TableSpecific(DeviceModel deviceModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        int delete = -1;
+        switch (deviceModel.getDeviceType()) {
+            case "Light":
+                delete = db.delete(LIGHTS_TABLE, COLUMN_DEVICE_ID + "=" + deviceModel.getDeviceId(), null);
+                break;
+            case "PowerPlug":
+                delete = db.delete(POWERPLUGS_TABLE, COLUMN_DEVICE_ID + "=" + deviceModel.getDeviceId(), null);
+                break;
+            case "Sensor":
+                delete = db.delete(SENSORS_TABLE, COLUMN_DEVICE_ID + "=" + deviceModel.getDeviceId(), null);
+                break;
+            default:
+                return false;
+        }
+
+        if (delete == 1) {
+            db.close();
+            return true;
+        } else {
+            db.close();
+            return false;
+        }
+    }
 }
 

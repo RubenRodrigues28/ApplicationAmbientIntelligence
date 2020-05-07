@@ -168,4 +168,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_Humidity" />
 
+    <ImageView
+        android:id="@+id/img_Delete"
+        android:layout_width="83dp"
+        android:layout_height="115dp"
+        android:layout_marginStart="164dp"
+        android:layout_marginLeft="164dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="68dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_ColorSetting"
+        app:srcCompat="@drawable/delete" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,15 +1,21 @@
 package tecnico.ulisboa.pt.smarthomeapplication;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.w3c.dom.Text;
 
 import tecnico.ulisboa.pt.smarthomeapplication.database.DatabaseHelper;
 import tecnico.ulisboa.pt.smarthomeapplication.database.DeviceModel;
@@ -32,6 +38,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
     private int mDefaultColor;
     private Button btn_ColorSetting;
+    private ImageView img_Delete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +58,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         txt_seekBar_Temperature = findViewById(R.id.txt_seekBar_Temperature);
         txt_seekBar2 = findViewById(R.id.txt_seekBar2);
         btn_ColorSetting = findViewById(R.id.btn_ColorSetting);
+        img_Delete = findViewById(R.id.img_Delete);
 
         ShowDeviceDetails();
         setClickListeners();
@@ -185,6 +193,41 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                 openColorPicker();
             }
         });
+
+        img_Delete.setOnClickListener(new TextView.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog();
+            }
+        });
+    };
+
+    private void showDialog(){
+        new AlertDialog.Builder(this)
+            .setTitle(getResources().getString(R.string.delete_device_title))
+            .setMessage(getResources().getString(R.string.delete_device_question))
+            .setIcon(getResources().getDrawable(android.R.drawable.ic_dialog_alert))
+            .setPositiveButton(getResources().getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(databaseHelper.deleteDevice(clickedDevice)){
+                            Toast.makeText(getApplicationContext(), "Device was deleted sucessfully.", Toast.LENGTH_LONG).show();
+                            openMainConsoleActivity();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Some error occurred during deletion.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+            .setNegativeButton(
+                getResources().getString(R.string.no),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), "Deleting device was cancelled.", Toast.LENGTH_LONG).show();
+                    }
+                }).show();
     }
 
     public void openColorPicker() {
@@ -206,5 +249,10 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             }
         });
         colorPicker.show();
+    }
+
+    public void openMainConsoleActivity() {
+        Intent intent = new Intent(this, MainConsoleActivity.class);
+        startActivity(intent);
     }
 }
