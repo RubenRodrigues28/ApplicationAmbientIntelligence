@@ -46,6 +46,19 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_DeviceName" />
 
     <TextView
+        android:id="@+id/txt_MaxTemperature"
+        android:layout_width="188dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="356dp"
+        android:text="MAX TEMPERATURE"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_DeviceName" />
+
+    <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -124,6 +137,18 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <SeekBar
+        android:id="@+id/seekBar_MaxTemperature"
+        android:layout_width="162dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="148dp"
+        android:indeterminate="false"
+        android:max="10000"
+        app:layout_constraintStart_toEndOf="@+id/txt_Temperature"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <SeekBar
         android:id="@+id/seekBar2"
         android:layout_width="162dp"
         android:layout_height="30dp"
@@ -146,6 +171,17 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_EnergyConsumed" />
 
     <TextView
+        android:id="@+id/txt_seekBar_MaxTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
+        android:layout_marginLeft="88dp"
+        android:layout_marginTop="128dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/txt_Temperature"
+        app:layout_constraintTop_toBottomOf="@+id/txt_EnergyConsumed" />
+
+    <TextView
         android:id="@+id/txt_seekBar2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -160,9 +196,9 @@
         android:id="@+id/btn_ColorSetting"
         android:layout_width="158dp"
         android:layout_height="58dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="120dp"
         android:text="Change ColorSetting"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"

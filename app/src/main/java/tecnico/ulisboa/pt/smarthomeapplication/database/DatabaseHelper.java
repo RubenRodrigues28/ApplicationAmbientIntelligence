@@ -127,9 +127,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cv.put(COLUMN_DEVICE_ID, id);
                 cv.put(COLUMN_SENSOR_HUMIDITY, sensorModel.getHumidity());
                 cv.put(COLUMN_SENSOR_TEMPERATURE, sensorModel.getTemperature());
+                cv.put(COLUMN_SENSOR_ENERGYCONSUMED, sensorModel.getEnergyConsumed());
                 cv.put(COLUMN_SENSOR_MAXTEMPERATURE, sensorModel.getMaxTemperature());
                 cv.put(COLUMN_SENSOR_MINTEMPERATURE, sensorModel.getMinTemperature());
-                cv.put(COLUMN_SENSOR_ENERGYCONSUMED, sensorModel.getEnergyConsumed());
                 insert = db.insert(SENSORS_TABLE, null, cv);
                 break;
             default:
@@ -462,6 +462,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cv.put(COLUMN_SENSOR_HUMIDITY, getHumidity(deviceModel));
                 cv.put(COLUMN_SENSOR_TEMPERATURE, newValue);
                 cv.put(COLUMN_SENSOR_ENERGYCONSUMED, getEnergyConsumed(deviceModel));
+                cv.put(COLUMN_SENSOR_MAXTEMPERATURE, getMaxTemperature(deviceModel));
+                cv.put(COLUMN_SENSOR_MINTEMPERATURE, getMinTemperature(deviceModel));
                 break;
             default:
                 return false;
@@ -473,6 +475,72 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             case "Light":
                 update = db.update(LIGHTS_TABLE, cv, COLUMN_DEVICE_ID + " = " + deviceModel.getDeviceId(), null);
                 break;
+            case "Sensor":
+                update = db.update(SENSORS_TABLE, cv, COLUMN_DEVICE_ID + " = " + deviceModel.getDeviceId(), null);
+                break;
+            default:
+                return false;
+        }
+
+        if (update == 1) {
+            db.close();
+            return true;
+        } else {
+            db.close();
+            return false;
+        }
+    }
+
+    public boolean updateMaxTemperatureDevice(DeviceModel deviceModel, int newValue) {
+        ContentValues cv = new ContentValues();
+        switch (deviceModel.getDeviceType()) {
+            case "Sensor":
+                cv.put(COLUMN_SENSOR_HUMIDITY, getHumidity(deviceModel));
+                cv.put(COLUMN_SENSOR_TEMPERATURE, getTemperature(deviceModel));
+                cv.put(COLUMN_SENSOR_ENERGYCONSUMED, getEnergyConsumed(deviceModel));
+                cv.put(COLUMN_SENSOR_MAXTEMPERATURE, newValue);
+                cv.put(COLUMN_SENSOR_MINTEMPERATURE, getMinTemperature(deviceModel));
+                break;
+            default:
+                return false;
+        }
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        int update = -1;
+        switch (deviceModel.getDeviceType()) {
+            case "Sensor":
+                update = db.update(SENSORS_TABLE, cv, COLUMN_DEVICE_ID + " = " + deviceModel.getDeviceId(), null);
+                break;
+            default:
+                return false;
+        }
+
+        if (update == 1) {
+            db.close();
+            return true;
+        } else {
+            db.close();
+            return false;
+        }
+    }
+
+    public boolean updateMinTemperatureDevice(DeviceModel deviceModel, int newValue) {
+        ContentValues cv = new ContentValues();
+        switch (deviceModel.getDeviceType()) {
+            case "Sensor":
+                cv.put(COLUMN_SENSOR_HUMIDITY, getHumidity(deviceModel));
+                cv.put(COLUMN_SENSOR_TEMPERATURE, getTemperature(deviceModel));
+                cv.put(COLUMN_SENSOR_ENERGYCONSUMED, getEnergyConsumed(deviceModel));
+                cv.put(COLUMN_SENSOR_MAXTEMPERATURE, getMaxTemperature(deviceModel));
+                cv.put(COLUMN_SENSOR_MINTEMPERATURE, newValue);
+                break;
+            default:
+                return false;
+        }
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        int update = -1;
+        switch (deviceModel.getDeviceType()) {
             case "Sensor":
                 update = db.update(SENSORS_TABLE, cv, COLUMN_DEVICE_ID + " = " + deviceModel.getDeviceId(), null);
                 break;
@@ -529,6 +597,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cv.put(COLUMN_SENSOR_HUMIDITY, newValue);
                 cv.put(COLUMN_SENSOR_TEMPERATURE, getTemperature(deviceModel));
                 cv.put(COLUMN_SENSOR_ENERGYCONSUMED, getEnergyConsumed(deviceModel));
+                cv.put(COLUMN_SENSOR_MAXTEMPERATURE, getMaxTemperature(deviceModel));
+                cv.put(COLUMN_SENSOR_MINTEMPERATURE, getMinTemperature(deviceModel));
                 break;
             default:
                 return false;
@@ -539,6 +609,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         switch (deviceModel.getDeviceType()) {
             case "Sensor":
                 update = db.update(SENSORS_TABLE, cv, COLUMN_DEVICE_ID + " = " + deviceModel.getDeviceId(), null);
+                break;
+            default:
+                return false;
+        }
+
+        if (update == 1) {
+            db.close();
+            return true;
+        } else {
+            db.close();
+            return false;
+        }
+    }
+
+    public boolean updatePowerDevice(DeviceModel deviceModel, int newValue) {
+        ContentValues cv = new ContentValues();
+        switch (deviceModel.getDeviceType()) {
+            case "Sensor":
+                cv.put(COLUMN_SENSOR_HUMIDITY, getHumidity(deviceModel));
+                cv.put(COLUMN_SENSOR_TEMPERATURE, getTemperature(deviceModel));
+                cv.put(COLUMN_SENSOR_ENERGYCONSUMED, newValue);
+                cv.put(COLUMN_SENSOR_MAXTEMPERATURE, getMaxTemperature(deviceModel));
+                cv.put(COLUMN_SENSOR_MINTEMPERATURE, getMinTemperature(deviceModel));
+                break;
+            case "PowerPlug":
+                cv.put(COLUMN_POWERPLUG_ENERGYCONSUMED, newValue);
+                break;
+            default:
+                return false;
+        }
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        int update = -1;
+        switch (deviceModel.getDeviceType()) {
+            case "Sensor":
+                update = db.update(SENSORS_TABLE, cv, COLUMN_DEVICE_ID + " = " + deviceModel.getDeviceId(), null);
+                break;
+            case "PowerPlug":
+                update = db.update(POWERPLUGS_TABLE, cv, COLUMN_DEVICE_ID + " = " + deviceModel.getDeviceId(), null);
                 break;
             default:
                 return false;

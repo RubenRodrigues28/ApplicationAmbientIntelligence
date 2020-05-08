@@ -35,6 +35,9 @@ public class DeviceDetailsActivity extends AppCompatActivity {
     private SeekBar seekBar_2;
     private TextView txt_seekBar_Temperature;
     private TextView txt_seekBar2;
+    private SeekBar seekBar_Maxtemperature;
+    private TextView txt_seekBar_MaxTemperature;
+    private TextView txt_MaxTemperature;
 
     private int mDefaultColor;
     private Button btn_ColorSetting;
@@ -59,6 +62,9 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         txt_seekBar2 = findViewById(R.id.txt_seekBar2);
         btn_ColorSetting = findViewById(R.id.btn_ColorSetting);
         img_Delete = findViewById(R.id.img_Delete);
+        seekBar_Maxtemperature = findViewById(R.id.seekBar_MaxTemperature);
+        txt_seekBar_MaxTemperature = findViewById(R.id.txt_seekBar_MaxTemperature);
+        txt_MaxTemperature = findViewById(R.id.txt_MaxTemperature);
 
         ShowDeviceDetails();
         setClickListeners();
@@ -84,8 +90,12 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
                 mDefaultColor = databaseHelper.getColorSetting(clickedDevice);
                 txt_humidity.setVisibility(View.INVISIBLE);
+                seekBar_Maxtemperature.setVisibility(View.INVISIBLE);
+                txt_seekBar_MaxTemperature.setVisibility(View.INVISIBLE);
+                txt_MaxTemperature.setVisibility(View.INVISIBLE);
                 break;
             case "PowerPlug":
+                Toast.makeText(getApplicationContext(), String.valueOf(databaseHelper.getEnergyConsumed(clickedDevice)), Toast.LENGTH_LONG).show();
                 txt_energyConsumed.setText(databaseHelper.getEnergyConsumed(clickedDevice) + " watts");
                 txt_temperature.setVisibility(View.INVISIBLE);
                 seekBar_temperature.setVisibility(View.INVISIBLE);
@@ -95,6 +105,9 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                 txt_seekBar_Temperature.setVisibility(View.INVISIBLE);
                 txt_seekBar2.setVisibility(View.INVISIBLE);
                 btn_ColorSetting.setVisibility(View.INVISIBLE);
+                seekBar_Maxtemperature.setVisibility(View.INVISIBLE);
+                txt_seekBar_MaxTemperature.setVisibility(View.INVISIBLE);
+                txt_MaxTemperature.setVisibility(View.INVISIBLE);
                 break;
             case "Sensor":
                 txt_energyConsumed.setText(databaseHelper.getEnergyConsumed(clickedDevice) + " watts");
@@ -109,6 +122,11 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
                 txt_brightness.setVisibility(View.INVISIBLE);
                 btn_ColorSetting.setVisibility(View.INVISIBLE);
+
+                seekBar_Maxtemperature.setMax(100);
+                seekBar_Maxtemperature.setProgress(databaseHelper.getMaxTemperature(clickedDevice));
+                txt_seekBar_MaxTemperature.setText(databaseHelper.getMaxTemperature(clickedDevice) + "/" + seekBar_Maxtemperature.getMax());
+
                 break;
             default:
                 // when none of the cases is true.
@@ -143,6 +161,29 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 txt_seekBar_Temperature.setText(seekBar.getProgress() + "/" + seekBar.getMax());
                 boolean result = databaseHelper.updateTemperatureDevice(clickedDevice, seekBar.getProgress());
+
+                if (result) {
+                    Toast.makeText(getApplicationContext(), "Update was successful.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Some error occurred during update.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        seekBar_Maxtemperature.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                txt_seekBar_MaxTemperature.setText(seekBar.getProgress() + "/" + seekBar.getMax());
+                boolean result = databaseHelper.updateMaxTemperatureDevice(clickedDevice, seekBar.getProgress());
 
                 if (result) {
                     Toast.makeText(getApplicationContext(), "Update was successful.", Toast.LENGTH_LONG).show();
@@ -255,4 +296,5 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainConsoleActivity.class);
         startActivity(intent);
     }
+
 }

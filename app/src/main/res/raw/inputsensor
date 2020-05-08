@@ -1,6 +1,8 @@
 {
-	deviceId:1,
-	deviceType:"Light",
-	deviceStatus:"Off"
+    deviceId:3
+    deviceType:PowerPlug
+	deviceStatus:Off
 	temperature:123
+	maxTemperature:10
+	power:50
 }
