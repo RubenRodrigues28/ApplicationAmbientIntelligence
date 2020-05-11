@@ -5,28 +5,35 @@ import java.io.Serializable;
 public class SensorModel implements Serializable {
     private int DeviceID;
     private int Humidity;
+    private int MinHumidity;
+    private int MaxHumidity;
     private int Temperature;
-    private int EnergyConsumed;
-    private int MaxTemperature;
     private int MinTemperature;
+    private int MaxTemperature;
+    private int EnergyConsumed;
+
 
     //for registration
-    public SensorModel(int humidity, int temperature, int energyConsumed, int maxTemperature, int minTemperature) {
+    public SensorModel(int humidity, int minHumidity, int maxHumidity, int temperature, int minTemperature, int maxTemperature, int energyConsumed) {
         Humidity = humidity;
+        MinHumidity = minHumidity;
+        MaxHumidity = maxHumidity;
         Temperature = temperature;
-        EnergyConsumed = energyConsumed;
-        MaxTemperature = maxTemperature;
         MinTemperature = minTemperature;
+        MaxTemperature = maxTemperature;
+        EnergyConsumed = energyConsumed;
     }
 
     //for access to database
-    public SensorModel(int deviceID, int humidity, int temperature, int energyConsumed, int maxTemperature, int minTemperature) {
+    public SensorModel(int deviceID, int humidity, int minHumidity, int maxHumidity, int temperature, int minTemperature, int maxTemperature, int energyConsumed) {
         DeviceID = deviceID;
         Humidity = humidity;
+        MinHumidity = minHumidity;
+        MaxHumidity = maxHumidity;
         Temperature = temperature;
-        EnergyConsumed = energyConsumed;
-        MaxTemperature = maxTemperature;
         MinTemperature = minTemperature;
+        MaxTemperature = maxTemperature;
+        EnergyConsumed = energyConsumed;
     }
 
     public int getHumidity() {
@@ -77,15 +84,33 @@ public class SensorModel implements Serializable {
         DeviceID = deviceID;
     }
 
+    public int getMinHumidity() {
+        return MinHumidity;
+    }
+
+    public void setMinHumidity(int minHumidity) {
+        MinHumidity = minHumidity;
+    }
+
+    public int getMaxHumidity() {
+        return MaxHumidity;
+    }
+
+    public void setMaxHumidity(int maxHumidity) {
+        MaxHumidity = maxHumidity;
+    }
+
     @Override
     public String toString() {
         return "SensorModel{" +
                 "DeviceID=" + DeviceID +
                 ", Humidity=" + Humidity +
+                ", MinHumidity=" + MinHumidity +
+                ", MaxHumidity=" + MaxHumidity +
                 ", Temperature=" + Temperature +
-                ", EnergyConsumed=" + EnergyConsumed +
-                ", MaxTemperature=" + MaxTemperature +
                 ", MinTemperature=" + MinTemperature +
+                ", MaxTemperature=" + MaxTemperature +
+                ", EnergyConsumed=" + EnergyConsumed +
                 '}';
     }
 }

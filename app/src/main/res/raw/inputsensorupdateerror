@@ -1,0 +1,7 @@
+{
+    "action":"update",
+    "deviceId":1,
+    "deviceType":Sensor,
+	"deviceStatus":Off,
+	"temperature":1000
+}

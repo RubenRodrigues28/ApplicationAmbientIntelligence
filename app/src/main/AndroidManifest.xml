@@ -2,8 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tecnico.ulisboa.pt.smarthomeapplication">
 
-    <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DeviceDetailsActivity"></activity>
+        <activity android:name=".SimulateInputActivity"></activity>
+        <activity android:name=".DeviceDetailsActivity" />
         <activity android:name=".ShowDevicesActivity" />
         <activity android:name=".AddNewDeviceActivity" />
         <activity android:name=".MainConsoleActivity" />

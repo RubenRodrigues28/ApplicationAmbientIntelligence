@@ -1,0 +1,8 @@
+{
+    "action":"update",
+    "deviceId":1,
+    "deviceType":"Sensor",
+	"deviceStatus":true,
+	"humidity":50,
+	"energyConsumed":500
+}

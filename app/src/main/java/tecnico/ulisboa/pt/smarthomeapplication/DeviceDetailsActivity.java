@@ -15,8 +15,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.w3c.dom.Text;
-
 import tecnico.ulisboa.pt.smarthomeapplication.database.DatabaseHelper;
 import tecnico.ulisboa.pt.smarthomeapplication.database.DeviceModel;
 import yuku.ambilwarna.AmbilWarnaDialog;
@@ -35,9 +33,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
     private SeekBar seekBar_2;
     private TextView txt_seekBar_Temperature;
     private TextView txt_seekBar2;
-    private SeekBar seekBar_Maxtemperature;
-    private TextView txt_seekBar_MaxTemperature;
-    private TextView txt_MaxTemperature;
 
     private int mDefaultColor;
     private Button btn_ColorSetting;
@@ -62,9 +57,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         txt_seekBar2 = findViewById(R.id.txt_seekBar2);
         btn_ColorSetting = findViewById(R.id.btn_ColorSetting);
         img_Delete = findViewById(R.id.img_Delete);
-        seekBar_Maxtemperature = findViewById(R.id.seekBar_MaxTemperature);
-        txt_seekBar_MaxTemperature = findViewById(R.id.txt_seekBar_MaxTemperature);
-        txt_MaxTemperature = findViewById(R.id.txt_MaxTemperature);
 
         ShowDeviceDetails();
         setClickListeners();
@@ -80,19 +72,16 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             case "Light":
                 txt_energyConsumed.setText(databaseHelper.getEnergyConsumed(clickedDevice) + " watts");
 
-                seekBar_temperature.setMax(10000);
+                seekBar_temperature.setMax(databaseHelper.getMaxTemperature(clickedDevice));
                 seekBar_temperature.setProgress(databaseHelper.getTemperature(clickedDevice));
                 txt_seekBar_Temperature.setText(databaseHelper.getTemperature(clickedDevice) + "/" + seekBar_temperature.getMax());
 
-                seekBar_2.setMax(100);
+                seekBar_2.setMax(databaseHelper.getMaxBrightness(clickedDevice));
                 seekBar_2.setProgress(databaseHelper.getBrightness(clickedDevice));
                 txt_seekBar2.setText(databaseHelper.getBrightness(clickedDevice) + "%/" + seekBar_2.getMax() + "%");
 
                 mDefaultColor = databaseHelper.getColorSetting(clickedDevice);
                 txt_humidity.setVisibility(View.INVISIBLE);
-                seekBar_Maxtemperature.setVisibility(View.INVISIBLE);
-                txt_seekBar_MaxTemperature.setVisibility(View.INVISIBLE);
-                txt_MaxTemperature.setVisibility(View.INVISIBLE);
                 break;
             case "PowerPlug":
                 Toast.makeText(getApplicationContext(), String.valueOf(databaseHelper.getEnergyConsumed(clickedDevice)), Toast.LENGTH_LONG).show();
@@ -105,28 +94,20 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                 txt_seekBar_Temperature.setVisibility(View.INVISIBLE);
                 txt_seekBar2.setVisibility(View.INVISIBLE);
                 btn_ColorSetting.setVisibility(View.INVISIBLE);
-                seekBar_Maxtemperature.setVisibility(View.INVISIBLE);
-                txt_seekBar_MaxTemperature.setVisibility(View.INVISIBLE);
-                txt_MaxTemperature.setVisibility(View.INVISIBLE);
                 break;
             case "Sensor":
                 txt_energyConsumed.setText(databaseHelper.getEnergyConsumed(clickedDevice) + " watts");
 
-                seekBar_temperature.setMax(100);
+                seekBar_temperature.setMax(databaseHelper.getMaxTemperature(clickedDevice));
                 seekBar_temperature.setProgress(databaseHelper.getTemperature(clickedDevice));
                 txt_seekBar_Temperature.setText(databaseHelper.getTemperature(clickedDevice) + "/" + seekBar_temperature.getMax());
 
-                seekBar_2.setMax(100);
+                seekBar_2.setMax(databaseHelper.getMaxHumidity(clickedDevice));
                 seekBar_2.setProgress(databaseHelper.getHumidity(clickedDevice));
-                txt_seekBar2.setText(databaseHelper.getHumidity(clickedDevice) + "%/" + seekBar_temperature.getMax() + "%");
+                txt_seekBar2.setText(databaseHelper.getHumidity(clickedDevice) + "%/" + seekBar_2.getMax() + "%");
 
                 txt_brightness.setVisibility(View.INVISIBLE);
                 btn_ColorSetting.setVisibility(View.INVISIBLE);
-
-                seekBar_Maxtemperature.setMax(100);
-                seekBar_Maxtemperature.setProgress(databaseHelper.getMaxTemperature(clickedDevice));
-                txt_seekBar_MaxTemperature.setText(databaseHelper.getMaxTemperature(clickedDevice) + "/" + seekBar_Maxtemperature.getMax());
-
                 break;
             default:
                 // when none of the cases is true.
@@ -137,7 +118,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 clickedDevice.setDeviceStatus(isChecked);
-                boolean result = databaseHelper.updateStatusDevice(clickedDevice);
+                boolean result = databaseHelper.updateStatusDevice(clickedDevice, isChecked);
 
                 if (result) {
                     Toast.makeText(getApplicationContext(), "Update was successful.", Toast.LENGTH_LONG).show();
@@ -161,29 +142,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 txt_seekBar_Temperature.setText(seekBar.getProgress() + "/" + seekBar.getMax());
                 boolean result = databaseHelper.updateTemperatureDevice(clickedDevice, seekBar.getProgress());
-
-                if (result) {
-                    Toast.makeText(getApplicationContext(), "Update was successful.", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Some error occurred during update.", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-        seekBar_Maxtemperature.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                txt_seekBar_MaxTemperature.setText(seekBar.getProgress() + "/" + seekBar.getMax());
-                boolean result = databaseHelper.updateMaxTemperatureDevice(clickedDevice, seekBar.getProgress());
 
                 if (result) {
                     Toast.makeText(getApplicationContext(), "Update was successful.", Toast.LENGTH_LONG).show();
@@ -241,34 +199,33 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                 showDialog();
             }
         });
-    };
+    }
 
-    private void showDialog(){
+    private void showDialog() {
         new AlertDialog.Builder(this)
-            .setTitle(getResources().getString(R.string.delete_device_title))
-            .setMessage(getResources().getString(R.string.delete_device_question))
-            .setIcon(getResources().getDrawable(android.R.drawable.ic_dialog_alert))
-            .setPositiveButton(getResources().getString(R.string.yes),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(databaseHelper.deleteDevice(clickedDevice)){
-                            Toast.makeText(getApplicationContext(), "Device was deleted sucessfully.", Toast.LENGTH_LONG).show();
-                            openMainConsoleActivity();
-                        }
-                        else {
-                            Toast.makeText(getApplicationContext(), "Some error occurred during deletion.", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                })
-            .setNegativeButton(
-                getResources().getString(R.string.no),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "Deleting device was cancelled.", Toast.LENGTH_LONG).show();
-                    }
-                }).show();
+                .setTitle(getResources().getString(R.string.delete_device_title))
+                .setMessage(getResources().getString(R.string.delete_device_question))
+                .setIcon(getResources().getDrawable(android.R.drawable.ic_dialog_alert))
+                .setPositiveButton(getResources().getString(R.string.yes),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (databaseHelper.deleteDevice(clickedDevice)) {
+                                    Toast.makeText(getApplicationContext(), "Device was deleted sucessfully.", Toast.LENGTH_LONG).show();
+                                    openShowDevicesActivity();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Some error occurred during deletion.", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        })
+                .setNegativeButton(
+                        getResources().getString(R.string.no),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(), "Deleting device was cancelled.", Toast.LENGTH_LONG).show();
+                            }
+                        }).show();
     }
 
     public void openColorPicker() {
@@ -292,9 +249,9 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         colorPicker.show();
     }
 
-    public void openMainConsoleActivity() {
+    public void openShowDevicesActivity() {
+        finish();
         Intent intent = new Intent(this, MainConsoleActivity.class);
         startActivity(intent);
     }
-
 }

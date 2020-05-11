@@ -5,12 +5,18 @@ import java.io.Serializable;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_LIGHT_BRIGHTNESS;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_LIGHT_COLOR_SETTING;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_LIGHT_ENERGY_CONSUMED;
+import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_LIGHT_MAX_BRIGHTNESS;
+import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_LIGHT_MAX_TEMPERATURE_KELVIN;
+import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_LIGHT_MIN_BRIGHTNESS;
+import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_LIGHT_MIN_TEMPERATURE_KELVIN;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_LIGHT_TEMPERATURE_KELVIN;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_POWERPLUG_ENERGY_CONSUMED;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_SENSOR_ENERGY_CONSUMED;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_SENSOR_HUMIDITY_PERCENT;
-import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_SENSOR_MAXTEMPERATURE_CELSIUS;
-import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_SENSOR_MINTEMPERATURE_CELSIUS;
+import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_SENSOR_MAX_HUMIDITY_PERCENT;
+import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_SENSOR_MAX_TEMPERATURE_CELSIUS;
+import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_SENSOR_MIN_HUMIDITY_PERCENT;
+import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_SENSOR_MIN_TEMPERATURE_CELSIUS;
 import static tecnico.ulisboa.pt.smarthomeapplication.database.DevicesConstants.DEFAULT_SENSOR_TEMPERATURE_CELSIUS;
 
 public class DeviceModel implements Serializable {
@@ -30,13 +36,13 @@ public class DeviceModel implements Serializable {
 
         switch (deviceType) {
             case "Light":
-                ligthsDevice = new LigthsDeviceModel(DEFAULT_LIGHT_BRIGHTNESS, DEFAULT_LIGHT_COLOR_SETTING, DEFAULT_LIGHT_TEMPERATURE_KELVIN, DEFAULT_LIGHT_ENERGY_CONSUMED);
+                ligthsDevice = new LigthsDeviceModel(DEFAULT_LIGHT_BRIGHTNESS, DEFAULT_LIGHT_MIN_BRIGHTNESS, DEFAULT_LIGHT_MAX_BRIGHTNESS, DEFAULT_LIGHT_COLOR_SETTING, DEFAULT_LIGHT_TEMPERATURE_KELVIN, DEFAULT_LIGHT_MIN_TEMPERATURE_KELVIN, DEFAULT_LIGHT_MAX_TEMPERATURE_KELVIN, DEFAULT_LIGHT_ENERGY_CONSUMED);
                 break;
             case "PowerPlug":
                 powerPlugModel = new PowerPlugModel(DEFAULT_POWERPLUG_ENERGY_CONSUMED);
                 break;
             case "Sensor":
-                sensorModel = new SensorModel(DEFAULT_SENSOR_HUMIDITY_PERCENT, DEFAULT_SENSOR_TEMPERATURE_CELSIUS, DEFAULT_SENSOR_ENERGY_CONSUMED, DEFAULT_SENSOR_MAXTEMPERATURE_CELSIUS, DEFAULT_SENSOR_MINTEMPERATURE_CELSIUS);
+                sensorModel = new SensorModel(DEFAULT_SENSOR_HUMIDITY_PERCENT, DEFAULT_SENSOR_MIN_HUMIDITY_PERCENT, DEFAULT_SENSOR_MAX_HUMIDITY_PERCENT, DEFAULT_SENSOR_TEMPERATURE_CELSIUS, DEFAULT_SENSOR_MIN_TEMPERATURE_CELSIUS, DEFAULT_SENSOR_MAX_TEMPERATURE_CELSIUS, DEFAULT_SENSOR_ENERGY_CONSUMED);
                 break;
             default:
                 // when none of the cases is true.

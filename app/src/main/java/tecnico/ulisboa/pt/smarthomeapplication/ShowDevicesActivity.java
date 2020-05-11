@@ -25,7 +25,6 @@ public class ShowDevicesActivity extends AppCompatActivity {
     private ArrayList<Integer> images = new ArrayList<Integer>();
 
     public static String[] convertStringsArray(ArrayList<String> arr) {
-
         // declaration and initialise String Array
         String[] str = new String[arr.size()];
 

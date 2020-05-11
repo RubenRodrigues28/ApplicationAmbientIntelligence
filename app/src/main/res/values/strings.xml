@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SmartHomeApplication</string>
     <string name="device_types_prompt">Choose a device type:</string>
-    <string name="delete_device_title">Are you sure?</string>
+    <string name="delete_device_title">Deletion of device</string>
     <string name="delete_device_question">Are you sure?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
